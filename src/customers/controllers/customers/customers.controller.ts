@@ -8,8 +8,8 @@ import {
   ParseIntPipe,
   Post,
   Req,
-  Res,
-} from '@nestjs/common';
+  Res, UsePipes, ValidationPipe
+} from "@nestjs/common";
 import { Request, Response } from 'express';
 import { CustomersService } from '../../services/customers/customers.service';
 import { CreateCustomerDto } from '../../dtos/CreateCustomer.dto';
@@ -42,13 +42,13 @@ export class CustomersController {
   }
 
   @Get('')
-  getAllCustomers(){
+  getAllCustomers() {
     return this.customerService.getAllCustomers();
   }
 
   @Post('create')
+  @UsePipes(ValidationPipe)
   createCustomer(@Body() createCustomerDto: CreateCustomerDto) {
-    console.log(createCustomerDto);
     this.customerService.createCustomer(createCustomerDto);
   }
 }
