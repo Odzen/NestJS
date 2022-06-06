@@ -8,8 +8,10 @@ import {
   ParseIntPipe,
   Post,
   Req,
-  Res, UsePipes, ValidationPipe
-} from "@nestjs/common";
+  Res,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
 import { CustomersService } from '../../services/customers/customers.service';
 import { CreateCustomerDto } from '../../dtos/CreateCustomer.dto';
