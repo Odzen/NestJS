@@ -7,6 +7,7 @@ import {
 import { CustomersController } from './controllers/customers/customers.controller';
 import { CustomersService } from './services/customers/customers.service';
 import { ValidateCustomerMiddleware } from './middlewares/validate-customer.middleware';
+import { ValidateCustomerAccountMiddleware } from './middlewares/validate-customer-account.middleware';
 
 @Module({
   controllers: [CustomersController],
@@ -15,7 +16,7 @@ import { ValidateCustomerMiddleware } from './middlewares/validate-customer.midd
 export class CustomersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(ValidateCustomerMiddleware)
+      .apply(ValidateCustomerMiddleware, ValidateCustomerAccountMiddleware)
       .exclude(
         {
           path: 'api/customers/create',
