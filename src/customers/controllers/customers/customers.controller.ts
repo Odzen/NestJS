@@ -1,15 +1,18 @@
 import {
+  Body,
   Controller,
   Get,
   HttpException,
   HttpStatus,
   Param,
   ParseIntPipe,
+  Post,
   Req,
   Res,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { CustomersService } from '../../services/customers/customers.service';
+import { CreateCustomerDto } from '../../dtos/CreateCustomer.dto';
 
 @Controller('customers')
 export class CustomersController {
@@ -31,10 +34,21 @@ export class CustomersController {
   }
 
   //NestJS way
-  @Get('/search/:id')
+  @Get('search/:id')
   searchCustomerById(@Param('id', ParseIntPipe) id: number) {
     const customer = this.customerService.findCustomerById(id);
     if (customer) return customer;
     else throw new HttpException('Customer Not Found', HttpStatus.BAD_REQUEST);
+  }
+
+  @Get('')
+  getAllCustomers(){
+    return this.customerService.getAllCustomers();
+  }
+
+  @Post('create')
+  createCustomer(@Body() createCustomerDto: CreateCustomerDto) {
+    console.log(createCustomerDto);
+    this.customerService.createCustomer(createCustomerDto);
   }
 }
