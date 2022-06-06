@@ -1,5 +1,15 @@
-import { Controller, Get, Inject } from "@nestjs/common";
-import { UsersService } from "../../services/users/users.service";
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Param,
+  UseInterceptors,
+} from '@nestjs/common';
+import { UsersService } from '../../services/users/users.service';
+import { SerializedUser } from '../../types';
 
 @Controller('users')
 export class UsersController {
@@ -7,8 +17,17 @@ export class UsersController {
     @Inject('USER_SERVICE') private readonly userService: UsersService,
   ) {}
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get('')
   getUsers() {
     return this.userService.getUsers();
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('/:username')
+  getByUserName(@Param('username') username: string) {
+    const user = this.userService.getUserByUsername(username);
+    if (user) return new SerializedUser(user);
+    else throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
   }
 }
