@@ -27,7 +27,7 @@ export class CustomersController {
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    const customer = this.customerService.findCustomerById(id);
+    const customer = this.customerService.getCustomerById(id);
     if (customer) {
       res.send(customer);
     } else {
@@ -38,7 +38,7 @@ export class CustomersController {
   //NestJS way
   @Get('search/:id')
   searchCustomerById(@Param('id', ParseIntPipe) id: number) {
-    const customer = this.customerService.findCustomerById(id);
+    const customer = this.customerService.getCustomerById(id);
     if (customer) return customer;
     else throw new HttpException('Customer Not Found', HttpStatus.BAD_REQUEST);
   }
