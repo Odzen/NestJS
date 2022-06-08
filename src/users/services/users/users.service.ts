@@ -38,4 +38,8 @@ export class UsersService {
   findUserByUsername(username: string) {
     return this.userRepository.findOne({ where: { username: username } });
   }
+
+  findUserById(id: number) {
+    return this.userRepository.findOne({ where: { id: id } });
+  }
 }
