@@ -37,7 +37,7 @@ export class UsersService {
     return this.userRepository.save(newUser);
   }
 
-  findUserByUsername(username: string) {
-    return this.userRepository.findOne({ where: { username: username } });
+  findUserByUsername(email: string) {
+    return this.userRepository.findOne({ where: { email: email } });
   }
 }

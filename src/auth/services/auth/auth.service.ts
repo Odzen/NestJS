@@ -8,9 +8,13 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, password: string) {
+    console.log("Inside validateUser");
     const userDB = await this.userService.findUserByUsername(username);
-    if (userDB) {
-      console.log(userDB);
+    if (userDB && userDB.password === password) {
+      console.log('User Validation Successful!!');
+      return userDB;
     }
+    console.log('User Validation Failed');
+    return null;
   }
 }
