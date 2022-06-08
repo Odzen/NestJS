@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User, SerializedUser } from '../../types';
+import { SerializedUser, User } from '../../types';
 import { User as UserEntity } from '../../../typeorm';
 import { CreateUserDto } from '../../dto/CreateUser.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,7 +10,8 @@ import { encodePassword } from '../../../utils/bcrypt';
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>) {}
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
 
   private users: User[] = [];
 
@@ -26,10 +27,17 @@ export class UsersService {
     return this.users.find((user) => user.id === id);
   }
 
+  // Interacts with the DB
   createUser(createUserDto: CreateUserDto) {
-    const password = encodePassword(createUserDto.password);
-    console.log(password);
-    const newUser = this.userRepository.create({ ...createUserDto, password });
+    //const password = encodePassword(createUserDto.password);
+    //console.log(password);
+    const newUser = this.userRepository.create(
+      createUserDto /*{ ...createUserDto, password }*/,
+    );
     return this.userRepository.save(newUser);
+  }
+
+  findUserByUsername(username: string) {
+    return this.userRepository.findOne({ where: { username: username } });
   }
 }
