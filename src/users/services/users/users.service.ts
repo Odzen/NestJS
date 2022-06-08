@@ -29,15 +29,13 @@ export class UsersService {
 
   // Interacts with the DB
   createUser(createUserDto: CreateUserDto) {
-    //const password = encodePassword(createUserDto.password);
-    //console.log(password);
-    const newUser = this.userRepository.create(
-      createUserDto /*{ ...createUserDto, password }*/,
-    );
+    const password = encodePassword(createUserDto.password);
+    console.log(password);
+    const newUser = this.userRepository.create({ ...createUserDto, password });
     return this.userRepository.save(newUser);
   }
 
-  findUserByUsername(email: string) {
-    return this.userRepository.findOne({ where: { email: email } });
+  findUserByUsername(username: string) {
+    return this.userRepository.findOne({ where: { username: username } });
   }
 }
